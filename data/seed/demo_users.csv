@@ -1,0 +1,5 @@
+email,role,departments
+admin@prakriti.demo,admin,procurement|finance|warehouse
+buyer@prakriti.demo,member,procurement
+finance@prakriti.demo,member,finance
+warehouse@prakriti.demo,member,warehouse

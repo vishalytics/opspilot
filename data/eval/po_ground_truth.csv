@@ -1,0 +1,64 @@
+po_number,po_date,vendor,warehouse,template,status,item_code,item,qty,uom,rate,gst_pct,line_value_ex_gst,po_total_incl_gst,approval_level
+PNPL/PO/25-26/0001,2025-04-02,Malabar Cocoa Traders,MNS,A,Open,RM-COC01,Cocoa Powder Alkalised 10-12%,500,KG,640,18,320000,377600.0,L2
+PNPL/PO/25-26/0002,2025-04-08,Aarav Ingredients LLP,MNS,A,Open,RM-WPC80,Whey Protein Concentrate 80%,2500,KG,1880,18,4700000,7920750.0,L3
+PNPL/PO/25-26/0002,2025-04-08,Aarav Ingredients LLP,MNS,A,Open,RM-CRM01,Creatine Monohydrate 200 mesh,1750,KG,1150,18,2012500,7920750.0,L3
+PNPL/PO/25-26/0003,2025-04-15,Meridian Bioactives Pvt. Ltd.,MNS,A,Open,RM-WPI90,Whey Protein Isolate 90%,500,KG,2980,18,1490000,1758200.0,L3
+PNPL/PO/25-26/0004,2025-04-20,Kaveri Packaging Pvt. Ltd.,MNS,A,Open,PM-SCP30,Scoop 30cc PP,60000,PCS,1.2,18,72000.0,521560.0,L3
+PNPL/PO/25-26/0004,2025-04-20,Kaveri Packaging Pvt. Ltd.,MNS,A,Open,PM-JAR2K,HDPE Jar 2kg with Cap (White),20000,PCS,18.5,18,370000.0,521560.0,L3
+PNPL/PO/25-26/0005,2025-04-24,Orbit Labels & Print,BWD,C,Open,PM-LBL01,Shrink Sleeve Label 2kg Jar,50000,PCS,0.85,18,42500.0,50150.0,L1
+PNPL/PO/25-26/0006,2025-04-23,Shreeji Corrugators,MNS,A,Open,PM-BOX5P,Corrugated Box 5-Ply (6 x 2kg),7500,PCS,42.0,12,315000.0,352800.0,L2
+PNPL/PO/25-26/0007,2025-04-27,Malabar Cocoa Traders,MNS,A,Open,RM-COC01,Cocoa Powder Alkalised 10-12%,1000,KG,640,18,640000,755200.0,L3
+PNPL/PO/25-26/0008,2025-05-05,Meridian Bioactives Pvt. Ltd.,MNS,A,Open,RM-WPI90,Whey Protein Isolate 90%,1500,KG,2995,18,4492500,5576385.0,L3
+PNPL/PO/25-26/0008,2025-05-05,Meridian Bioactives Pvt. Ltd.,MNS,A,Open,RM-SUC01,Sucralose Powder,10,KG,5200,18,52000,5576385.0,L3
+PNPL/PO/25-26/0008,2025-05-05,Meridian Bioactives Pvt. Ltd.,MNS,A,Open,RM-VPX01,Vitamin & Mineral Premix VP-14,125,KG,1450,18,181250,5576385.0,L3
+PNPL/PO/25-26/0009,2025-05-07,Kaveri Packaging Pvt. Ltd.,MNS,A,Cancelled,PM-JAR2K,HDPE Jar 2kg with Cap (White),50000,PCS,18.5,18,925000.0,1091500.0,L3
+PNPL/PO/25-26/0010,2025-05-09,Orbit Labels & Print,BWD,C,Open,PM-LBL01,Shrink Sleeve Label 2kg Jar,25000,PCS,0.85,18,21250.0,25075.0,L1
+PNPL/PO/25-26/0011,2025-05-10,Shreeji Corrugators,MNS,A,Open,PM-BOX5P,Corrugated Box 5-Ply (6 x 2kg),9000,PCS,42.0,12,378000.0,423360.0,L2
+PNPL/PO/25-26/0012,2025-05-16,Malabar Cocoa Traders,MNS,A,Open,RM-COC01,Cocoa Powder Alkalised 10-12%,700,KG,645,18,451500,532770.0,L3
+PNPL/PO/25-26/0013,2025-05-16,Aarav Ingredients LLP,MNS,A,Open,RM-CRM01,Creatine Monohydrate 200 mesh,1750,KG,1140,18,1995000,10180450.0,L3
+PNPL/PO/25-26/0013,2025-05-16,Aarav Ingredients LLP,MNS,A,Open,RM-WPC80,Whey Protein Concentrate 80%,3500,KG,1895,18,6632500,10180450.0,L3
+PNPL/PO/25-26/0014,2025-05-27,Meridian Bioactives Pvt. Ltd.,MNS,A,Open,RM-SUC01,Sucralose Powder,10,KG,5200,18,52000,61360.0,L1
+PNPL/PO/25-26/0015,2025-06-02,Orbit Labels & Print,BWD,C,Open,PM-LBL01,Shrink Sleeve Label 2kg Jar,50000,PCS,0.85,18,42500.0,50150.0,L1
+PNPL/PO/25-26/0016,2025-06-09,Shreeji Corrugators,MNS,A,Open,PM-BOX5P,Corrugated Box 5-Ply (6 x 2kg),3000,PCS,42.0,12,126000.0,141120.0,L2
+PNPL/PO/25-26/0017,2025-06-08,Malabar Cocoa Traders,MNS,A,Open,RM-COC01,Cocoa Powder Alkalised 10-12%,900,KG,650,18,585000,690300.0,L3
+PNPL/PO/25-26/0018,2025-06-17,Aarav Ingredients LLP,MNS,A,Open,RM-CRM01,Creatine Monohydrate 200 mesh,500,KG,1130,18,565000,8596300.0,L3
+PNPL/PO/25-26/0018,2025-06-17,Aarav Ingredients LLP,MNS,A,Open,RM-WPC80,Whey Protein Concentrate 80%,3500,KG,1920,18,6720000,8596300.0,L3
+PNPL/PO/25-26/0019,2025-06-17,Meridian Bioactives Pvt. Ltd.,MNS,A,Open,RM-SUC01,Sucralose Powder,20,KG,5200,18,104000,4016720.0,L3
+PNPL/PO/25-26/0019,2025-06-17,Meridian Bioactives Pvt. Ltd.,MNS,A,Open,RM-VPX01,Vitamin & Mineral Premix VP-14,200,KG,1450,18,290000,4016720.0,L3
+PNPL/PO/25-26/0019,2025-06-17,Meridian Bioactives Pvt. Ltd.,MNS,A,Open,RM-WPI90,Whey Protein Isolate 90%,1000,KG,3010,18,3010000,4016720.0,L3
+PNPL/PO/25-26/0020,2025-06-15,Kaveri Packaging Pvt. Ltd.,BWD,C,Open,PM-SCP30,Scoop 30cc PP,50000,PCS,1.2,18,60000.0,616550.0,L3
+PNPL/PO/25-26/0020,2025-06-15,Kaveri Packaging Pvt. Ltd.,BWD,C,Open,PM-JAR2K,HDPE Jar 2kg with Cap (White),25000,PCS,18.5,18,462500.0,616550.0,L3
+PNPL/PO/25-26/0021,2025-06-21,Orbit Labels & Print,MNS,A,Open,PM-LBL01,Shrink Sleeve Label 2kg Jar,60000,PCS,0.85,18,51000.0,60180.0,L1
+PNPL/PO/25-26/0022,2025-07-02,Malabar Cocoa Traders,MNS,B,Open,RM-COC01,Cocoa Powder Alkalised 10-12%,400,KG,655,18,262000,309160.0,L2
+PNPL/PO/25-26/0023,2025-07-06,Aarav Ingredients LLP,MNS,B,Open,RM-CRM01,Creatine Monohydrate 200 mesh,1000,KG,1120,18,1120000,7074100.0,L2
+PNPL/PO/25-26/0023,2025-07-06,Aarav Ingredients LLP,MNS,B,Open,RM-WPC80,Whey Protein Concentrate 80%,2500,KG,1950,18,4875000,7074100.0,L2
+PNPL/PO/25-26/0024,2025-07-07,Meridian Bioactives Pvt. Ltd.,MNS,B,Open,RM-WPI90,Whey Protein Isolate 90%,1500,KG,3025,18,4537500,5653675.0,L3
+PNPL/PO/25-26/0024,2025-07-07,Meridian Bioactives Pvt. Ltd.,MNS,B,Open,RM-VPX01,Vitamin & Mineral Premix VP-14,175,KG,1450,18,253750,5653675.0,L3
+PNPL/PO/25-26/0025,2025-07-17,Kaveri Packaging Pvt. Ltd.,BWD,C,Open,PM-JAR2K,HDPE Jar 2kg with Cap (White),30000,PCS,18.5,18,555000.0,654900.0,L3
+PNPL/PO/25-26/0026,2025-07-08,Orbit Labels & Print,MNS,B,Open,PM-LBL01,Shrink Sleeve Label 2kg Jar,40000,PCS,0.85,18,34000.0,40120.0,L1
+PNPL/PO/25-26/0027,2025-07-23,Shreeji Corrugators,MNS,B,Open,PM-BOX5P,Corrugated Box 5-Ply (6 x 2kg),8000,PCS,42.0,12,336000.0,376320.0,L2
+PNPL/PO/25-26/0028,2025-07-22,Malabar Cocoa Traders,MNS,B,Open,RM-COC01,Cocoa Powder Alkalised 10-12%,600,KG,655,18,393000,463740.0,L2
+PNPL/PO/25-26/0029,2025-08-07,Meridian Bioactives Pvt. Ltd.,MNS,B,Open,RM-WPI90,Whey Protein Isolate 90%,1250,KG,3040,18,3800000,4943315.0,L3
+PNPL/PO/25-26/0029,2025-08-07,Meridian Bioactives Pvt. Ltd.,MNS,B,Open,RM-VPX01,Vitamin & Mineral Premix VP-14,125,KG,1450,18,181250,4943315.0,L3
+PNPL/PO/25-26/0029,2025-08-07,Meridian Bioactives Pvt. Ltd.,MNS,B,Open,RM-SUC01,Sucralose Powder,40,KG,5200,18,208000,4943315.0,L3
+PNPL/PO/25-26/0030,2025-08-07,Kaveri Packaging Pvt. Ltd.,BWD,C,Open,PM-SCP30,Scoop 30cc PP,50000,PCS,1.2,18,60000.0,1162300.0,L3
+PNPL/PO/25-26/0030,2025-08-07,Kaveri Packaging Pvt. Ltd.,BWD,C,Open,PM-JAR2K,HDPE Jar 2kg with Cap (White),50000,PCS,18.5,18,925000.0,1162300.0,L3
+PNPL/PO/25-26/0031,2025-08-15,Orbit Labels & Print,MNS,B,Open,PM-LBL01,Shrink Sleeve Label 2kg Jar,40000,PCS,0.85,18,34000.0,40120.0,L1
+PNPL/PO/25-26/0032,2025-08-15,Shreeji Corrugators,MNS,B,Open,PM-BOX5P,Corrugated Box 5-Ply (6 x 2kg),3000,PCS,42.0,12,126000.0,141120.0,L2
+PNPL/PO/25-26/0033,2025-08-14,Malabar Cocoa Traders,MNS,B,Open,RM-COC01,Cocoa Powder Alkalised 10-12%,1000,KG,660,18,660000,778800.0,L3
+PNPL/PO/25-26/0034,2025-08-19,Aarav Ingredients LLP,MNS,B,Open,RM-WPC80,Whey Protein Concentrate 80%,6000,KG,2020,18,12120000,16266300.0,L3
+PNPL/PO/25-26/0034,2025-08-19,Aarav Ingredients LLP,MNS,B,Open,RM-CRM01,Creatine Monohydrate 200 mesh,1500,KG,1110,18,1665000,16266300.0,L3
+PNPL/PO/25-26/0035,2025-08-27,Meridian Bioactives Pvt. Ltd.,BWD,C,Open,RM-SUC01,Sucralose Powder,30,KG,5200,18,156000,526280.0,L3
+PNPL/PO/25-26/0035,2025-08-27,Meridian Bioactives Pvt. Ltd.,BWD,C,Open,RM-VPX01,Vitamin & Mineral Premix VP-14,200,KG,1450,18,290000,526280.0,L3
+PNPL/PO/25-26/0036,2025-09-02,Orbit Labels & Print,MNS,B,Superseded,PM-LBL01,Shrink Sleeve Label 2kg Jar,35000,PCS,0.85,18,29750.0,35105.0,L1
+PNPL/PO/25-26/0037,2025-09-10,Shreeji Corrugators,MNS,B,Open,PM-BOX5P,Corrugated Box 5-Ply (6 x 2kg),9000,PCS,42.0,12,378000.0,423360.0,L2
+PNPL/PO/25-26/0038,2025-09-17,Malabar Cocoa Traders,MNS,B,Open,RM-COC01,Cocoa Powder Alkalised 10-12%,300,KG,665,18,199500,235410.0,L2
+PNPL/PO/25-26/0039,2025-09-08,Aarav Ingredients LLP,MNS,B,Open,RM-CRM01,Creatine Monohydrate 200 mesh,1750,KG,1100,18,1925000,9174500.0,L3
+PNPL/PO/25-26/0039,2025-09-08,Aarav Ingredients LLP,MNS,B,Open,RM-WPC80,Whey Protein Concentrate 80%,3000,KG,1950,18,5850000,9174500.0,L3
+PNPL/PO/25-26/0040,2025-09-20,Meridian Bioactives Pvt. Ltd.,BWD,C,Open,RM-WPI90,Whey Protein Isolate 90%,750,KG,3055,18,2291250,3107235.0,L3
+PNPL/PO/25-26/0040,2025-09-20,Meridian Bioactives Pvt. Ltd.,BWD,C,Open,RM-VPX01,Vitamin & Mineral Premix VP-14,200,KG,1450,18,290000,3107235.0,L3
+PNPL/PO/25-26/0040,2025-09-20,Meridian Bioactives Pvt. Ltd.,BWD,C,Open,RM-SUC01,Sucralose Powder,10,KG,5200,18,52000,3107235.0,L3
+PNPL/PO/25-26/0041,2025-09-20,Kaveri Packaging Pvt. Ltd.,MNS,B,Open,PM-JAR2K,HDPE Jar 2kg with Cap (White),30000,PCS,18.5,18,555000.0,711540.0,L3
+PNPL/PO/25-26/0041,2025-09-20,Kaveri Packaging Pvt. Ltd.,MNS,B,Open,PM-SCP30,Scoop 30cc PP,40000,PCS,1.2,18,48000.0,711540.0,L3
+PNPL/PO/25-26/0042,2025-09-24,Orbit Labels & Print,MNS,B,Open,PM-LBL01,Shrink Sleeve Label 2kg Jar,35000,PCS,0.85,18,29750.0,35105.0,L1
+PNPL/PO/25-26/0036 R1,2025-09-02,Orbit Labels & Print,MNS,B,Open,PM-LBL01,Shrink Sleeve Label 2kg Jar,40000,PCS,0.85,18,34000.0,40120.0,L1

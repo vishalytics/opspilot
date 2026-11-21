@@ -1,0 +1,10 @@
+file,title,departments
+documents/policies/Procurement_Policy_v3.2.docx,Procurement Policy (Version 3.2),procurement|finance
+documents/sops/SOP-PR-02_Vendor_Onboarding.docx,SOP-PR-02: Vendor Onboarding,procurement|finance
+documents/sops/SOP-WH-04_GRN_and_Quality_Inspection.pdf,SOP-WH-04: Goods Receipt (GRN) and Quality Inspection,procurement|warehouse
+documents/sops/SOP-WH-01_Inbound_Slot_Booking.docx,SOP-WH-01: Inbound Vehicle Slot Booking,procurement|warehouse
+documents/policies/Invoice_Processing_and_Payment_Terms.pdf,Invoice Processing and Payment Terms Policy,finance|procurement
+documents/contracts/Rate_Contract_Aarav_Ingredients_WPC80.pdf,Rate Contract – Aarav Ingredients LLP – Whey Protein Concentrate 80%,procurement|finance
+documents/contracts/Supply_Agreement_Kaveri_Packaging.docx,Supply Agreement – Kaveri Packaging Pvt. Ltd.,procurement|finance
+documents/contracts/Quality_Agreement_NutriFlex_Contract_Manufacturing.docx,Quality Agreement – NutriFlex Labs (Contract Manufacturer),procurement
+documents/vendor_correspondence/Quotation_Zenith_Supplies_WPC80.docx,Quotation – Zenith Supplies – Whey Protein Concentrate,procurement
