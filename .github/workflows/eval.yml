@@ -49,7 +49,9 @@ jobs:
         with: { node-version: 22, cache: npm }
       - run: npm ci
       - name: Run eval
+        shell: bash
         run: |
+          set -o pipefail
           label="${{ inputs.label }}"
           if [ -z "$label" ]; then label="auto $(date -u +%Y-%m-%d) ${GITHUB_SHA::7}"; fi
           args=(--label "$label")

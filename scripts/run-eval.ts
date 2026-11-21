@@ -86,6 +86,7 @@ async function main() {
     let r: Ask;
     try { r = await ask(q); } catch (e) {
       console.log("ERROR", (e as Error).message);
+      if (process.env.GITHUB_ACTIONS) console.log(`::warning title=Request error ${q.id}::${(e as Error).message.replace(/\r?\n/g, " ").slice(0, 500)}`);
       rows.push({ q, answer: `ERROR: ${(e as Error).message}`, hit: false, passed: false, reason: "request failed", latency: 0, cost: 0, cited: [] as string[] });
       continue;
     }
@@ -144,4 +145,9 @@ async function main() {
   }
 }
 
-main().catch((e) => { console.error("Eval failed:", e.message ?? e); process.exit(1); });
+main().catch((e) => {
+  const msg = e?.message ?? JSON.stringify(e);
+  console.error("Eval failed:", msg);
+  if (process.env.GITHUB_ACTIONS) console.log(`::error title=Eval failed::${String(msg).replace(/\r?\n/g, " ").slice(0, 900)}`);
+  process.exit(1);
+});
