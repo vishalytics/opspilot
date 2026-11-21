@@ -30,6 +30,17 @@ jobs:
       CHUNK_MAX_TOKENS: ${{ vars.CHUNK_MAX_TOKENS || '500' }}
     steps:
       - uses: actions/checkout@v4
+      - name: Clean up pasted secrets (strip spaces and line breaks)
+        run: |
+          for v in SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY GEMINI_API_KEY DEMO_PASSWORD GEMINI_CHAT_MODEL; do
+            raw="${!v}"
+            clean=$(printf '%s' "$raw" | tr -d '\r\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+            if [ -n "$clean" ]; then
+              echo "::add-mask::$clean"
+              echo "$v=$clean" >> "$GITHUB_ENV"
+            fi
+          done
+
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
