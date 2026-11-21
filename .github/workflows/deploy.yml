@@ -41,7 +41,7 @@ jobs:
       DEMO_PASSWORD: ${{ secrets.DEMO_PASSWORD }}
       SLACK_SIGNING_SECRET: ${{ secrets.SLACK_SIGNING_SECRET }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-      GEMINI_CHAT_MODEL: ${{ vars.GEMINI_CHAT_MODEL || 'gemini-flash-latest' }}
+      GEMINI_CHAT_MODEL: ${{ vars.GEMINI_CHAT_MODEL || 'gemini-flash-lite-latest' }}
       GEMINI_EMBED_MODEL: gemini-embedding-001
       PRICE_IN_PER_M: ${{ vars.PRICE_IN_PER_M }}
       PRICE_OUT_PER_M: ${{ vars.PRICE_OUT_PER_M }}
@@ -52,6 +52,8 @@ jobs:
       SEMANTIC_WEIGHT: ${{ vars.SEMANTIC_WEIGHT || '1' }}
       CHUNK_MAX_TOKENS: ${{ vars.CHUNK_MAX_TOKENS || '500' }}
       CHUNK_OVERLAP_TOKENS: "50"
+      GEMINI_THINKING_LEVEL: ${{ vars.GEMINI_THINKING_LEVEL }}
+      GEMINI_THINKING_BUDGET: ${{ vars.GEMINI_THINKING_BUDGET }}
       SUPABASE_YES: "1"
     steps:
       - uses: actions/checkout@v4
@@ -110,6 +112,7 @@ jobs:
           f=$(mktemp)
           for v in GEMINI_API_KEY GEMINI_CHAT_MODEL GEMINI_EMBED_MODEL PRICE_IN_PER_M PRICE_OUT_PER_M PRICE_EMBED_PER_M USD_INR \
                    MATCH_COUNT FULL_TEXT_WEIGHT SEMANTIC_WEIGHT CHUNK_MAX_TOKENS CHUNK_OVERLAP_TOKENS WEBHOOK_SECRET \
+                   GEMINI_THINKING_LEVEL GEMINI_THINKING_BUDGET \
                    SLACK_SIGNING_SECRET SLACK_BOT_TOKEN; do
             if [ -n "${!v}" ]; then echo "$v=${!v}" >> "$f"; fi
           done

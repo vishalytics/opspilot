@@ -101,7 +101,7 @@ async function main() {
   const summary = {
     label,
     config: {
-      model: process.env.GEMINI_CHAT_MODEL ?? "gemini-flash-latest",
+      model: process.env.GEMINI_CHAT_MODEL ?? "gemini-flash-lite-latest",
       prompt_version: ap?.version ?? null,
       match_count: process.env.MATCH_COUNT ?? "8",
       weights: `${process.env.FULL_TEXT_WEIGHT ?? 1}/${process.env.SEMANTIC_WEIGHT ?? 1}`,

@@ -32,6 +32,8 @@ export interface AnswerDeps {
   fullTextWeight?: number;
   maxToolCalls?: number;
   today?: string;
+  /** Stop calling tools after this many ms and force a final answer (Edge Functions have a hard wall clock). */
+  budgetMs?: number;
 }
 
 export interface Source {
@@ -146,7 +148,9 @@ export async function answerQuestion(
       const maxCalls = deps.maxToolCalls ?? 3;
 
       for (let round = 0; round <= maxCalls; round++) {
-        const allowTools = toolCalls.length < maxCalls;
+        const overBudget = Date.now() - started > (deps.budgetMs ?? 60000);
+        if (overBudget) flags.push("time_budget_reached");
+        const allowTools = toolCalls.length < maxCalls && !overBudget;
         const t = Date.now();
         const res = await deps.llm.generate(deps.cfg, { system, contents, tools: TOOLS, allowTools });
         llmMs += Date.now() - t;

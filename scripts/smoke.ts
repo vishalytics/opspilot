@@ -43,10 +43,21 @@ async function ask(email: string, question: string) {
   return body.route !== "error";
 }
 
+async function recentLogs() {
+  const { data } = await adminClient().from("query_logs")
+    .select("created_at, route, model, llm_ms, retrieval_ms, latency_ms, input_tokens, output_tokens, tool_calls, error")
+    .order("created_at", { ascending: false }).limit(6);
+  for (const l of data ?? []) {
+    gh(l.error ? "warning" : "notice", "Query log",
+      `route=${l.route} model=${l.model} llm_ms=${l.llm_ms} retrieval_ms=${l.retrieval_ms} total_ms=${l.latency_ms} tokens=${l.input_tokens}/${l.output_tokens} tools=${(l.tool_calls ?? []).map((t: any) => t.name).join(",")} error=${l.error ?? "none"}`);
+  }
+}
+
 const ok = [
   await counts(),
   await ask("buyer@prakriti.demo", "What approvals are needed to release a PO worth ₹3.5 lakh including GST?"),
   await ask("buyer@prakriti.demo", "What was the last rate we paid for WPC80?"),
   await ask("warehouse@prakriti.demo", "What is the contracted WPC80 rate with Aarav?"),
 ].every(Boolean);
+await recentLogs();
 process.exit(ok ? 0 : 1);

@@ -9,6 +9,9 @@ export interface GeminiConfig {
   embedModel: string; // gemini-embedding-001
   embedDims: number; // 768
   temperature?: number;
+  thinkingLevel?: string; // Gemini 3+: "minimal" | "low" | "medium" | "high" (GEMINI_THINKING_LEVEL)
+  thinkingBudget?: number; // Gemini 2.5: tokens, 0 = off (GEMINI_THINKING_BUDGET)
+  timeoutMs?: number; // per request (GEMINI_TIMEOUT_MS), default 30000
 }
 
 export type Part =
@@ -36,18 +39,25 @@ export interface GenerateResult {
   outputTokens: number;
 }
 
-async function post(url: string, apiKey: string, body: unknown, attempt = 0): Promise<any> {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-    body: JSON.stringify(body),
-  });
+async function post(url: string, apiKey: string, body: unknown, attempt = 0, timeoutMs = 30000): Promise<any> {
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+  } catch (e) {
+    const name = (e as Error).name;
+    throw new Error(name === "TimeoutError" || name === "AbortError" ? `Gemini did not answer within ${timeoutMs} ms` : `Gemini request failed: ${(e as Error).message}`);
+  }
   if (res.ok) return res.json();
   const detail = await res.text();
   // Retry rate limits and transient server errors with backoff (free tier hits 429 easily).
   if ((res.status === 429 || res.status >= 500) && attempt < 3) {
     await new Promise((r) => setTimeout(r, 1000 * 2 ** attempt + Math.random() * 300));
-    return post(url, apiKey, body, attempt + 1);
+    return post(url, apiKey, body, attempt + 1, timeoutMs);
   }
   throw new Error(`Gemini ${res.status}: ${detail.slice(0, 400)}`);
 }
@@ -62,13 +72,18 @@ export async function generate(
     generationConfig: {
       ...(cfg.temperature !== undefined ? { temperature: cfg.temperature } : {}),
       ...(opts.json ? { responseMimeType: "application/json" } : {}),
+      ...(cfg.thinkingLevel ? { thinkingConfig: { thinkingLevel: cfg.thinkingLevel } } : {}),
+      ...(cfg.thinkingBudget !== undefined ? { thinkingConfig: { thinkingBudget: cfg.thinkingBudget } } : {}),
     },
   };
   if (opts.tools?.length) {
     body.tools = [{ functionDeclarations: opts.tools }];
     body.toolConfig = { functionCallingConfig: { mode: opts.allowTools === false ? "NONE" : "AUTO" } };
   }
-  const data = await post(`${BASE}/models/${cfg.chatModel}:generateContent`, cfg.apiKey, body);
+  const data = await post(`${BASE}/models/${cfg.chatModel}:generateContent`, cfg.apiKey, body, 0, cfg.timeoutMs ?? 30000);
+  if (!data.candidates?.length) {
+    throw new Error(`Gemini returned no answer${data.promptFeedback?.blockReason ? ` (blocked: ${data.promptFeedback.blockReason})` : ""}`);
+  }
   const content: Content = data.candidates?.[0]?.content ?? { role: "model", parts: [] };
   if (!content.role) content.role = "model";
   const parts = (content.parts ?? []) as Part[];
@@ -119,9 +134,12 @@ export function configFromEnv(get: (k: string) => string | undefined): GeminiCon
   const t = get("GEMINI_TEMPERATURE");
   return {
     apiKey,
-    chatModel: get("GEMINI_CHAT_MODEL") || "gemini-flash-latest",
+    chatModel: get("GEMINI_CHAT_MODEL") || "gemini-flash-lite-latest",
     embedModel: get("GEMINI_EMBED_MODEL") || "gemini-embedding-001",
     embedDims: Number(get("EMBED_DIMS") || 768),
     temperature: t ? Number(t) : undefined,
+    thinkingLevel: get("GEMINI_THINKING_LEVEL") || undefined,
+    thinkingBudget: get("GEMINI_THINKING_BUDGET") ? Number(get("GEMINI_THINKING_BUDGET")) : undefined,
+    timeoutMs: Number(get("GEMINI_TIMEOUT_MS") || 30000),
   };
 }

@@ -27,6 +27,7 @@ export async function answerForUser(
       matchCount: Number(env("MATCH_COUNT") || 8),
       semanticWeight: Number(env("SEMANTIC_WEIGHT") || 1),
       fullTextWeight: Number(env("FULL_TEXT_WEIGHT") || 1),
+      budgetMs: Number(env("ANSWER_BUDGET_MS") || 60000),
     },
     { question, userId, channel, departments, promptTemplate: prompt.template, promptVersion: prompt.version },
   );
