@@ -1,6 +1,6 @@
 // File parsing for the ingest function (Deno). Turns bytes into either
 // document sections (PDF/DOCX) or spreadsheet rows (XLS/XLSX).
-import { extractText, getDocumentProxy, strFromU8, unzipSync, XLSX } from "./deps.ts";
+import { extractText, getDocumentProxy, strFromU8, unzipSync, XLSX } from "./deps-ingest.ts";
 import { docxXmlToSections, type Section, textToSections } from "./chunker.ts";
 import type { Sheets } from "./po-extract.ts";
 

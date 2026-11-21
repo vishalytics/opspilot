@@ -18,7 +18,8 @@
 | 14 | Versioned prompts in a table, version logged per query | Prompts in code | Change prompts without deploys; compare versions in evals |
 | 15 | Own DOCX reader (word/document.xml) instead of mammoth | mammoth | mammoth fails in Supabase's Deno runtime (`__proto__` disabled) |
 | 16 | Excel dates read as serial numbers, converted in UTC | `cellDates: true` | Date objects shifted 19 POs by a day (caught by the ground-truth test) |
-| 17 | SheetJS 0.20.3 from the vendor CDN in the function | npm `xlsx` 0.18.5 | The npm build has known vulnerabilities and is no longer updated there |
+| 17 | SheetJS from npm (`xlsx` 0.18.5) in the ingest function only | SheetJS 0.20.3 from cdn.sheetjs.com | Supabase's bundler refuses imports from that host. The npm build has known issues with crafted files, so only admins/procurement can upload and parsing is isolated in `ingest`; revisit when Supabase allows the host or a patched build reaches npm |
 | 18 | Eval runs as the right user per question, LLM judge + retrieval hit | Manual spot checks | Repeatable, comparable across configurations |
 | 19 | Explicit API grants in a migration (`000500_api_grants.sql`) | Rely on the project setting "Grant API access to new tables automatically" | New projects can be created with that setting off, which makes every query fail with "permission denied". Explicit grants work either way; RLS still filters rows. app_config is revoked from API roles |
 | 20 | Deploy from GitHub Actions (`deploy.yml`), CLI pinned to v2 | Local terminal only; latest CLI | No local setup needed; secrets live in GitHub. CLI v3 changed `db push` to target the local stack by default, so v2 is pinned |
+| 21 | Deploy workflow also runs on every push to main touching the backend | Manual runs only | Continuous deployment; bulk ingest is idempotent (checksum skip), so repeats are cheap |

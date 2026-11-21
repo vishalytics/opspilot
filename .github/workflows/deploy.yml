@@ -9,6 +9,14 @@
 name: Deploy to Supabase
 
 on:
+  # Continuous deployment: any push to main that touches the backend redeploys it.
+  push:
+    branches: [main]
+    paths:
+      - "supabase/**"
+      - "scripts/**"
+      - "data/**"
+      - ".github/workflows/deploy.yml"
   workflow_dispatch:
     inputs:
       ingest:
@@ -115,7 +123,8 @@ jobs:
         run: npx tsx scripts/seed.ts
 
       - name: Upload and ingest the dataset
-        if: ${{ inputs.ingest }}
+        # Safe to repeat: files already uploaded (same checksum) are skipped.
+        if: ${{ github.event_name == 'push' || inputs.ingest }}
         run: npx tsx scripts/bulk-ingest.ts
 
       - name: Summary
