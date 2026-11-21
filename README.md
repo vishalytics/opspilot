@@ -86,7 +86,7 @@ Full design: [docs/solution-design.md](docs/solution-design.md) · Why each choi
 
 ### Option B — from your terminal
 
-You need: **Node 20+**, a free **Supabase** account, a **Gemini API key** from [Google AI Studio](https://aistudio.google.com/apikey), and (for hosting) a free **Netlify** account. Docker is not needed.
+You need: **Node 22+**, a free **Supabase** account, a **Gemini API key** from [Google AI Studio](https://aistudio.google.com/apikey), and (for hosting) a free **Netlify** account. Docker is not needed.
 
 1. **Create a Supabase project** at [supabase.com](https://supabase.com). Save the database password you choose.
 2. **Get the keys.** In the project: Project Settings → API keys (anon/publishable and service-role/secret), and the project URL and reference ID.

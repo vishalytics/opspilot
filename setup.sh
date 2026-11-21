@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-time setup of the Supabase side of OpsPilot.
-# Prerequisites: Node 20+, a Supabase project, a Gemini API key, a filled-in .env,
+# Prerequisites: Node 22+, a Supabase project, a Gemini API key, a filled-in .env,
 # and `npx supabase@2 login` done once (opens a browser). No terminal? Use the
 # "Deploy to Supabase" GitHub Action instead (see README).
 set -euo pipefail
