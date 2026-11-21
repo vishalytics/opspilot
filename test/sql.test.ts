@@ -12,6 +12,8 @@ const MIGRATIONS = [
   "supabase/migrations/20251121000200_search_and_tools.sql",
   "supabase/migrations/20251121000300_llmops.sql",
   // 000400_platform.sql needs Supabase's storage, pg_net and realtime; not available here.
+  // Its trigger function is stubbed below so 000500 (grants) can run unchanged.
+  "supabase/migrations/20251121000500_api_grants.sql",
 ];
 
 const SUPABASE_STUB = `
@@ -36,12 +38,15 @@ const users = {
 async function setup() {
   const db = new PGlite({ extensions: { vector } });
   await db.exec(SUPABASE_STUB);
-  for (const file of MIGRATIONS) await db.exec(readFileSync(file, "utf8"));
+  for (const file of MIGRATIONS) {
+    if (file.endsWith("000500_api_grants.sql")) {
+      await db.exec(`create function public.notify_ingest() returns trigger language plpgsql as $$ begin return new; end $$;`);
+    }
+    await db.exec(readFileSync(file, "utf8"));
+  }
   await db.exec(`
-    grant usage on schema public, extensions to authenticated;
-    grant select, insert on all tables in schema public to authenticated;
-    grant update (feedback) on public.query_logs to authenticated;
-    grant execute on all functions in schema public to authenticated;
+    -- Supabase grants this by default; everything else comes from the 000500 migration.
+    grant usage on schema extensions to authenticated;
     insert into auth.users values
       ('${users.admin}', 'admin@prakriti.demo'),
       ('${users.buyer}', 'buyer@prakriti.demo'),
@@ -134,6 +139,22 @@ test("only procurement or admins can queue uploads", async () => {
   await as(db, users.buyer,
     `insert into documents (title, source_file, kind, departments, storage_path, created_by)
      values ('y', 'y.pdf', 'sop', '{procurement}', 'p', '${users.buyer}')`);
+});
+
+test("grants: no one reads app_config through the API, anon reads nothing", async () => {
+  await db.exec(`insert into app_config values ('webhook_secret', 's3cret')`);
+  await assert.rejects(as(db, users.admin, "select * from app_config"), /permission denied/);
+  await db.exec(`set role anon;`);
+  try {
+    await assert.rejects(db.query("select * from chunks"), /permission denied/);
+  } finally {
+    await db.exec(`reset role;`);
+  }
+});
+
+test("users may set feedback on their own logs but not rewrite answers", async () => {
+  await as(db, users.buyer, "update query_logs set feedback = 1 where question_redacted = 'q1'");
+  await assert.rejects(as(db, users.buyer, "update query_logs set answer_redacted = 'x'"), /permission denied/);
 });
 
 test("one active prompt per name is seeded", async () => {
