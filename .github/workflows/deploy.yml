@@ -127,6 +127,9 @@ jobs:
         if: ${{ github.event_name == 'push' || inputs.ingest }}
         run: npx tsx scripts/bulk-ingest.ts
 
+      - name: Smoke test (ingestion counts + 3 real questions)
+        run: npx tsx scripts/smoke.ts
+
       - name: Summary
         if: always()
         run: |
