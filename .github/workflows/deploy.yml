@@ -26,6 +26,9 @@ on:
 
 concurrency: deploy
 
+permissions:
+  contents: write   # lets the workflow commit web/.env.production (public values only)
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -132,6 +135,32 @@ jobs:
 
       - name: Smoke test (ingestion counts + 3 real questions)
         run: npx tsx scripts/smoke.ts
+
+      - name: Harden auth (no public sign-ups; demo users only)
+        run: |
+          code=$(curl -s -o /tmp/auth.json -w '%{http_code}' -X PATCH \
+            "https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/config/auth" \
+            -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" \
+            -d '{"disable_signup": true}')
+          if [ "$code" = "200" ]; then echo "::notice title=Auth::Public sign-ups disabled"; else echo "::warning title=Auth::Could not disable sign-ups (HTTP $code)"; fi
+
+      - name: Configure the web app (public Supabase URL + anon key)
+        run: |
+          # The anon key is designed to be public: it ships inside the browser bundle
+          # anyway, and row-level security decides what it can read. Committing it lets
+          # Netlify build the site without manual environment variables.
+          f=web/.env.production
+          printf 'VITE_SUPABASE_URL=%s\nVITE_SUPABASE_ANON_KEY=%s\n' "${SUPABASE_URL%/}" "$SUPABASE_ANON_KEY" > "$f"
+          if git diff --quiet -- "$f" 2>/dev/null && git ls-files --error-unmatch "$f" >/dev/null 2>&1; then
+            echo "::notice title=Web config::Unchanged"
+          else
+            git config user.name "opspilot-deploy"
+            git config user.email "actions@users.noreply.github.com"
+            git add -f "$f"
+            git commit -m "Configure web app with public Supabase URL and anon key"
+            git push
+            echo "::notice title=Web config::Committed web/.env.production; Netlify will rebuild"
+          fi
 
       - name: Summary
         if: always()

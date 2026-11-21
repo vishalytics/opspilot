@@ -3,6 +3,7 @@ dist/
 .env
 .env.*
 !.env.example
+!web/.env.production
 web/.env.local
 eval-results/
 supabase/.temp/
