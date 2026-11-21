@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # One-time setup of the Supabase side of OpsPilot.
 # Prerequisites: Node 20+, a Supabase project, a Gemini API key, a filled-in .env,
-# and `npx supabase login` done once (opens a browser).
+# and `npx supabase@2 login` done once (opens a browser). No terminal? Use the
+# "Deploy to Supabase" GitHub Action instead (see README).
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -12,7 +13,9 @@ for v in SUPABASE_PROJECT_REF SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_RO
   if [ -z "${!v:-}" ]; then echo "Missing $v in .env"; exit 1; fi
 done
 
-SB="npx --yes supabase@latest"
+# Pinned to Supabase CLI v2: in v3, `db push` targets a local stack unless told otherwise.
+SB="npx --yes supabase@2"
+export SUPABASE_YES=1
 
 echo "→ Installing script dependencies"
 npm install --silent
@@ -21,7 +24,7 @@ echo "→ Linking project $SUPABASE_PROJECT_REF"
 $SB link --project-ref "$SUPABASE_PROJECT_REF" --password "$SUPABASE_DB_PASSWORD"
 
 echo "→ Applying database migrations (tables, RLS, search, tools, prompts, storage, trigger)"
-$SB db push --password "$SUPABASE_DB_PASSWORD" --yes
+$SB db push --password "$SUPABASE_DB_PASSWORD" --include-all
 
 echo "→ Setting function secrets"
 SECRETS=$(mktemp)
@@ -34,7 +37,7 @@ $SB secrets set --env-file "$SECRETS" --project-ref "$SUPABASE_PROJECT_REF"
 rm -f "$SECRETS"
 
 echo "→ Deploying Edge Functions (no Docker needed)"
-$SB functions deploy ask ingest slack --project-ref "$SUPABASE_PROJECT_REF" --use-api --no-verify-jwt --yes
+$SB functions deploy ask ingest slack --project-ref "$SUPABASE_PROJECT_REF" --use-api --no-verify-jwt
 
 echo "→ Seeding config, demo users and rate contracts"
 npx tsx scripts/seed.ts

@@ -21,3 +21,4 @@
 | 17 | SheetJS 0.20.3 from the vendor CDN in the function | npm `xlsx` 0.18.5 | The npm build has known vulnerabilities and is no longer updated there |
 | 18 | Eval runs as the right user per question, LLM judge + retrieval hit | Manual spot checks | Repeatable, comparable across configurations |
 | 19 | Explicit API grants in a migration (`000500_api_grants.sql`) | Rely on the project setting "Grant API access to new tables automatically" | New projects can be created with that setting off, which makes every query fail with "permission denied". Explicit grants work either way; RLS still filters rows. app_config is revoked from API roles |
+| 20 | Deploy from GitHub Actions (`deploy.yml`), CLI pinned to v2 | Local terminal only; latest CLI | No local setup needed; secrets live in GitHub. CLI v3 changed `db push` to target the local stack by default, so v2 is pinned |

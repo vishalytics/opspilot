@@ -1,0 +1,49 @@
+# Runs the 26-question evaluation against the deployed system.
+# Actions tab -> "Run evaluation" -> Run workflow (give the run a label).
+name: Run evaluation
+
+on:
+  workflow_dispatch:
+    inputs:
+      label:
+        description: "Label for this run, e.g. 'baseline' or 'semantic only'"
+        required: true
+        default: baseline
+      only:
+        description: "Optional: comma-separated question ids, e.g. Q01,Q15"
+        required: false
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      DEMO_PASSWORD: ${{ secrets.DEMO_PASSWORD }}
+      GEMINI_CHAT_MODEL: ${{ vars.GEMINI_CHAT_MODEL || 'gemini-flash-latest' }}
+      MATCH_COUNT: ${{ vars.MATCH_COUNT || '8' }}
+      FULL_TEXT_WEIGHT: ${{ vars.FULL_TEXT_WEIGHT || '1' }}
+      SEMANTIC_WEIGHT: ${{ vars.SEMANTIC_WEIGHT || '1' }}
+      CHUNK_MAX_TOKENS: ${{ vars.CHUNK_MAX_TOKENS || '500' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - name: Run eval
+        run: |
+          args=(--label "${{ inputs.label }}")
+          if [ -n "${{ inputs.only }}" ]; then args+=(--only "${{ inputs.only }}"); fi
+          npx tsx scripts/run-eval.ts "${args[@]}" | tee eval-output.txt
+      - name: Summary
+        if: always()
+        run: |
+          { echo '```'; tail -n 40 eval-output.txt 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-results
+          path: eval-results/

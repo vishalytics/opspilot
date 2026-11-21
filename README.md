@@ -74,6 +74,18 @@ Full design: [docs/solution-design.md](docs/solution-design.md) · Why each choi
 
 ## Set it up (about 30 minutes)
 
+### Option A — from GitHub, no terminal needed
+
+1. Create a Supabase project and note: project ref, URL, anon key, service-role key, database password.
+2. Create a Supabase **access token** at [supabase.com/dashboard/account/tokens](https://supabase.com/dashboard/account/tokens) and a **Gemini API key** at [aistudio.google.com](https://aistudio.google.com/apikey).
+3. In your fork: **Settings → Secrets and variables → Actions → New repository secret**, add:
+   `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_REF`, `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_DB_PASSWORD`, `GEMINI_API_KEY`, `DEMO_PASSWORD` (any password for the demo users).
+   Optional **variables** (same page, Variables tab): `PRICE_IN_PER_M`, `PRICE_OUT_PER_M` (from [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing)), `GEMINI_CHAT_MODEL`.
+4. **Actions → Deploy to Supabase → Run workflow.** It applies migrations, sets function secrets, deploys the functions, creates the demo users and ingests the dataset (about 10 minutes).
+5. Deploy `web/` on Netlify (step 7 below), then **Actions → Run evaluation → Run workflow**.
+
+### Option B — from your terminal
+
 You need: **Node 20+**, a free **Supabase** account, a **Gemini API key** from [Google AI Studio](https://aistudio.google.com/apikey), and (for hosting) a free **Netlify** account. Docker is not needed.
 
 1. **Create a Supabase project** at [supabase.com](https://supabase.com). Save the database password you choose.
@@ -84,7 +96,7 @@ You need: **Node 20+**, a free **Supabase** account, a **Gemini API key** from [
    cp .env.example .env    # then edit .env
    ```
    Fill the Supabase values, `GEMINI_API_KEY`, a long random `WEBHOOK_SECRET`, and a `DEMO_PASSWORD`. Set `PRICE_IN_PER_M` / `PRICE_OUT_PER_M` from [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing) for your chat model, or costs will show ₹0.
-4. **Log the CLI in once:** `npx supabase login` (opens a browser).
+4. **Log the CLI in once:** `npx supabase@2 login` (opens a browser).
 5. **Run the setup:**
    ```bash
    ./setup.sh
