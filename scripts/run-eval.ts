@@ -135,6 +135,13 @@ async function main() {
   console.log(`  details          eval-results/run-${run.id}.csv and the LLMOps page`);
   const fails = rows.filter((r) => !r.passed);
   if (fails.length) console.log("\nFailed:\n" + fails.map((r) => `  ${r.q.id}: ${r.reason}`).join("\n"));
+
+  // GitHub annotations (visible in the Actions UI/API without opening logs)
+  if (process.env.GITHUB_ACTIONS) {
+    const one = (t: string) => t.replace(/\r?\n/g, " ").slice(0, 900);
+    console.log(`::notice title=Eval run #${run.id}::accuracy=${summary.answer_accuracy}% (${rows.filter((r) => r.passed).length}/${rows.length}) retrieval_hit=${summary.retrieval_hit_rate}% avg_ms=${summary.avg_latency_ms} p95_ms=${summary.p95_latency_ms} cost_inr=${summary.total_cost_inr} config=${JSON.stringify(summary.config)}`);
+    for (const r of fails) console.log(`::warning title=FAIL ${r.q.id} (${r.q.category})::${one(`Q: ${r.q.question} | expected: ${r.q.expected_answer} | got: ${r.answer} | judge: ${r.reason}`)}`);
+  }
 }
 
 main().catch((e) => { console.error("Eval failed:", e.message ?? e); process.exit(1); });

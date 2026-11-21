@@ -3,6 +3,9 @@
 name: Run evaluation
 
 on:
+  # Also runs after a push to main whose commit message contains [eval]
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       label:
@@ -15,6 +18,7 @@ on:
 
 jobs:
   eval:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[eval]') }}
     runs-on: ubuntu-latest
     timeout-minutes: 40
     env:
@@ -46,7 +50,9 @@ jobs:
       - run: npm ci
       - name: Run eval
         run: |
-          args=(--label "${{ inputs.label }}")
+          label="${{ inputs.label }}"
+          if [ -z "$label" ]; then label="auto $(date -u +%Y-%m-%d) ${GITHUB_SHA::7}"; fi
+          args=(--label "$label")
           if [ -n "${{ inputs.only }}" ]; then args+=(--only "${{ inputs.only }}"); fi
           npx tsx scripts/run-eval.ts "${args[@]}" | tee eval-output.txt
       - name: Summary
