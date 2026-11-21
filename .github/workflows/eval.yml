@@ -16,6 +16,9 @@ on:
         description: "Optional: comma-separated question ids, e.g. Q01,Q15"
         required: false
 
+# Wait for any running deployment (same group) instead of racing it.
+concurrency: deploy
+
 jobs:
   eval:
     if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[eval]') }}

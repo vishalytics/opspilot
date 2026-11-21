@@ -32,12 +32,16 @@ async function tokenFor(who: string): Promise<string> {
   return tokens.get(who)!;
 }
 
-async function ask(q: Q): Promise<Ask> {
+async function ask(q: Q, retry = true): Promise<Ask> {
   const res = await fetch(`${SUPABASE_URL()}/functions/v1/ask`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${await tokenFor(q.ask_as)}`, apikey: need("SUPABASE_ANON_KEY") },
     body: JSON.stringify({ question: q.question, channel: "eval" }),
   });
+  if (res.status === 401 && retry) {
+    tokens.delete(q.ask_as); // session was revoked (e.g. password reset): sign in again once
+    return ask(q, false);
+  }
   if (!res.ok) throw new Error(`ask ${res.status}: ${await res.text()}`);
   return res.json();
 }
@@ -86,7 +90,6 @@ async function main() {
     let r: Ask;
     try { r = await ask(q); } catch (e) {
       console.log("ERROR", (e as Error).message);
-      if (process.env.GITHUB_ACTIONS) console.log(`::warning title=Request error ${q.id}::${(e as Error).message.replace(/\r?\n/g, " ").slice(0, 500)}`);
       rows.push({ q, answer: `ERROR: ${(e as Error).message}`, hit: false, passed: false, reason: "request failed", latency: 0, cost: 0, cited: [] as string[] });
       continue;
     }
@@ -141,7 +144,11 @@ async function main() {
   if (process.env.GITHUB_ACTIONS) {
     const one = (t: string) => t.replace(/\r?\n/g, " ").slice(0, 900);
     console.log(`::notice title=Eval run #${run.id}::accuracy=${summary.answer_accuracy}% (${rows.filter((r) => r.passed).length}/${rows.length}) retrieval_hit=${summary.retrieval_hit_rate}% avg_ms=${summary.avg_latency_ms} p95_ms=${summary.p95_latency_ms} cost_inr=${summary.total_cost_inr} config=${JSON.stringify(summary.config)}`);
-    for (const r of fails) console.log(`::warning title=FAIL ${r.q.id} (${r.q.category})::${one(`Q: ${r.q.question} | expected: ${r.q.expected_answer} | got: ${r.answer} | judge: ${r.reason}`)}`);
+    // GitHub shows at most 10 annotations of each level per step, so failures are grouped.
+    const items = fails.map((r) => `[${r.q.id} ${r.q.category} as ${r.q.ask_as}] Q: ${r.q.question} || EXPECTED: ${r.q.expected_answer} || GOT: ${r.answer} || JUDGE: ${r.reason}`);
+    for (let i = 0; i < items.length; i += 3) {
+      console.log(`::warning title=Failures ${i + 1}-${Math.min(i + 3, items.length)} of ${items.length}::${items.slice(i, i + 3).join("  ####  ").replace(/\r?\n/g, " ").slice(0, 3000)}`);
+    }
   }
 }
 

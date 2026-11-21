@@ -1,6 +1,6 @@
 // Seeds config, demo users and rate contracts. Safe to run more than once.
 //   npx tsx scripts/seed.ts
-import { adminClient, need, readCsv, SUPABASE_URL } from "./lib.ts";
+import { adminClient, anonClient, need, readCsv, SUPABASE_URL } from "./lib.ts";
 
 const db = adminClient();
 
@@ -20,7 +20,9 @@ async function main() {
   for (const u of users) {
     let id = existing?.users.find((x) => x.email === u.email)?.id;
     if (id) {
-      await db.auth.admin.updateUserById(id, { password });
+      // Only reset the password if it no longer works: a reset signs the user out everywhere.
+      const { error: loginErr } = await anonClient().auth.signInWithPassword({ email: u.email, password });
+      if (loginErr) await db.auth.admin.updateUserById(id, { password });
     } else {
       const { data, error } = await db.auth.admin.createUser({ email: u.email, password, email_confirm: true });
       if (error) throw error;
