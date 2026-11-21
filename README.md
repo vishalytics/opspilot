@@ -69,7 +69,7 @@ Full design: [docs/solution-design.md](docs/solution-design.md) · Why each choi
 | Workflow automation, event-driven patterns | Storage upload → row → trigger → background function ([`platform.sql`](supabase/migrations/20251121000400_platform.sql), [`ingest`](supabase/functions/ingest/index.ts)) |
 | Orchestration layer | Function-calling router over parameterised SQL tools |
 | LLMOps: observability, tuning, cost | `query_logs` (tokens, ₹ cost, latency split, flags, feedback), LLMOps dashboard, [`run-eval.ts`](scripts/run-eval.ts) with retrieval hit rate + LLM-judged accuracy |
-| Secure, compliant deployment | Postgres RLS on every table, user-scoped clients, service-role key only in ingest/seed, secrets in env, PII masked before logging, audit trail |
+| Secure, compliant deployment | Postgres RLS on every table, user-scoped clients, service-role key only in ingest, scripts and the Slack user lookup, secrets in env, PII masked before logging, audit trail |
 | Translate designs into working systems | [Solution design](docs/solution-design.md) → this code |
 
 ## Set it up (about 30 minutes)

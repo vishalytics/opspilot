@@ -3,7 +3,7 @@
 Procurement RAG copilot. Stack: Supabase (Postgres + pgvector, Auth, Storage, Edge Functions in Deno/TypeScript), React + Vite + TypeScript on Netlify, Gemini API. Synthetic data in `data/`.
 
 Rules:
-- Never use the service-role key in code that answers user questions. Only `ingest` and `scripts/` use it.
+- Never use the service-role key in code that answers user questions. Only `ingest`, `scripts/`, and the `slack` function (solely to map a Slack user to their account and mint that user's session) use it.
 - No secrets in the repo. Everything comes from `.env` / function secrets.
 - Model names and prices come from env vars. Never hard-code them.
 - Every database change is a new migration in `supabase/migrations/`. Add a test to `test/sql.test.ts` for any new RLS policy or SQL tool.

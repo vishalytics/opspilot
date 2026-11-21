@@ -48,7 +48,7 @@ See the diagram in the [README](../README.md#architecture).
 
 ## 6. Security model
 
-- **Least privilege:** the browser holds only the public key and the user's session. The service-role key exists only in the `ingest` function and setup scripts.
+- **Least privilege:** the browser holds only the public key and the user's session. The service-role key exists only in the `ingest` function, the setup scripts, and the `slack` function, where it is used solely to find the Slack user's account and create a session for them; the answer itself runs as that user.
 - **Authorisation in the database:** RLS on every table; the answer path uses the caller's JWT, so retrieval is filtered before the model sees anything.
 - **Untrusted content:** document text is treated as data (tagged, flagged at ingest, warned in context). User questions that try to override instructions are refused.
 - **Sensitive data:** bank account numbers, IFSC, PAN and phone numbers are masked in answers, sources and logs. GSTINs (public business identifiers) are kept.
